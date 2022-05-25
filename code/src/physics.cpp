@@ -6,6 +6,7 @@
 #include "TeleportingParticles.h"
 #include "AA3.h"
 #include "AA4.h"
+#include "AA5.h"
 
 
 
@@ -16,6 +17,7 @@ enum class EnabledSimulation
 	TELEPORTING_PARTICLES,
 	AA3,
 	AA4,
+	AA5,
 };
 
 Simulator* currentSimulator;
@@ -54,6 +56,12 @@ void setSimulation(EnabledSimulation simulation)
 			currentSimulator = new AA4::AA4Simulator();
 			break;
 			;;
+
+		case EnabledSimulation::AA5:
+			printf("Start the AA5");
+			currentSimulator = new AA5::FluidSimulator();
+			break;
+			;;
 	}
 }
 #pragma endregion
@@ -72,7 +80,7 @@ void GUI()
 			if (ImGui::MenuItem("TeleportingParticles")) { setSimulation(EnabledSimulation::TELEPORTING_PARTICLES); };
 			if (ImGui::MenuItem("AA3")) { setSimulation(EnabledSimulation::AA3); };
 			if (ImGui::MenuItem("AA4")) { setSimulation(EnabledSimulation::AA4); };
-
+			if (ImGui::MenuItem("AA5")) { setSimulation(EnabledSimulation::AA5); };
 
 			ImGui::EndMenu();
 		}

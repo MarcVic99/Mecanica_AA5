@@ -9,6 +9,7 @@ namespace AA5
 	{
 	public:
 		glm::vec3 GetPositionAtTime(glm::vec3 initialPosition, float time);
+
 	private:
 		glm::vec3 direction;
 		float amplitude;
@@ -29,10 +30,12 @@ namespace AA5
 		void Update(float dt);
 		void RenderUpdate();
 		void RenderGui();
+
 	private:
 		float GetSphereSubmergedVolume();
 
 		std::vector<Wave> waves;
+		std::vector<glm::vec3> positions; // 18 x 14 mesh
 		Sphere sphere;
 	};
 }
