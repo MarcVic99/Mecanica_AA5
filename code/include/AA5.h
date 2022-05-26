@@ -53,9 +53,8 @@ namespace AA5
 		void SetInitialMeshPosition();
 		void SetInitialMeshParticlePositionAndVelocity();
 
-		glm::vec3* positions;
-
-
+		std::vector<glm::vec3> positions;
+		std::vector<glm::vec3> initialPos;
 	};
 
 	class FluidSimulator : public Simulator 

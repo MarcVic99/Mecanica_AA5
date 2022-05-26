@@ -2,6 +2,7 @@
 
 namespace AA5 
 {
+
 	// == WAVE ==
 	glm::vec3 AA5::Wave::GetPositionAtTime(glm::vec3 initialPosition, float time)
 	{
@@ -19,7 +20,7 @@ namespace AA5
 		resultingPosition = initialPosition - direction * amplitude * sin(glm::dot(waveVectorK, initialPosition) - frequency * time + phase);
 
 		// y = offsetY + summation:A_i * cos(K_i * x_0 - w_i * t + phi_i)
-		resultingPosition.y = offsetY + amplitude * cos(waveVectorK.y * initialPosition.y - frequency * time + phase);
+		resultingPosition.y = offsetY + amplitude * cos(glm::dot(waveVectorK, initialPosition) - frequency * time + phase);
 
 		return resultingPosition;
 	}
@@ -60,7 +61,12 @@ namespace AA5
 
 	MeshTest::MeshTest()
 	{
-		positions = new glm::vec3[ClothMesh::numCols * ClothMesh::numRows];
+		for (int i = 0; i < ClothMesh::numCols * ClothMesh::numRows; i++)
+		{
+			positions.push_back(glm::vec3(0.f));
+			initialPos.push_back(glm::vec3(0.f));
+		}
+
 		SetInitialMeshPosition();
 	}
 
@@ -102,6 +108,5 @@ namespace AA5
 			}
 		}
 	}
-
 }
 
