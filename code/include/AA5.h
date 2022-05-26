@@ -27,7 +27,7 @@ namespace AA5
 		float waveLength;
 
 		float frequency;
-		float fase;
+		float phase;
 	};
 
 	class Sphere 
