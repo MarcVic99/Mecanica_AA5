@@ -97,7 +97,7 @@ namespace AA5
 			for (float col = 0; col < ClothMesh::numCols; col++)
 			{
 				int indx = GetIndex(col, row);
-				positions[indx] = glm::vec3(((10.f/ClothMesh::numRows) * row) - 5, 0, ((10.f / ClothMesh::numCols) * col) - 5.f);
+				positions[indx] = glm::vec3(((10.5f/ClothMesh::numRows) * row) - 5, 0, ((10.5f / ClothMesh::numCols) * col) - 5.f);
 				positions[indx] = positions[indx];
 			}
 		}
