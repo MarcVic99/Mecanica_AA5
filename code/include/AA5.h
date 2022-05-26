@@ -23,6 +23,7 @@ namespace AA5
 		Wave(glm::vec3 dir, float amp, float wLenght, float freq, float ph);
 		
 		glm::vec3 GetPositionAtTime(glm::vec3 initialPosition, float time);
+		glm::vec3 SummWaves(glm::vec3 initialPosition, float time);
 	
 	private:
 		glm::vec3 direction;

@@ -32,6 +32,7 @@ namespace AA5
 		return resultingPosition;
 	}
 
+	
 	// == FLUID SIMULATOR ==
 	FluidSimulator::FluidSimulator()
 	{
