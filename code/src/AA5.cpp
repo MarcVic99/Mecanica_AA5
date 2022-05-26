@@ -5,11 +5,11 @@ namespace AA5
 	// == WAVE ==
 	Wave::Wave(glm::vec3 dir = glm::vec3(0.f, 0.f, 1.f), float amp = 0.2f, float wLenght = 0.1f, float freq = 1.f, float ph = 0.1f)
 	{
-		direction = glm::vec3(0.f, 0.f, 1.f);
-		amplitude = 0.2f;
-		waveLength = 0.1f;
-		frequency = 1.f;
-		phase = 0.1f;
+		direction = dir;
+		amplitude = amp;
+		waveLength = wLenght;
+		frequency = freq;
+		phase = ph;
 	}
 
 	glm::vec3 AA5::Wave::GetPositionAtTime(glm::vec3 initialPosition, float time)
@@ -44,6 +44,7 @@ namespace AA5
 		for (int i = 0; i < meshTest->positions.size(); i++)
 		{
 			waves.push_back(Wave());
+			waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
 		}
 	}
 
@@ -55,9 +56,14 @@ namespace AA5
 	void FluidSimulator::Update(float dt)
 	{
 		accumTime += dt;
-		for (int i = 0; i < meshTest->positions.size(); i++)
+		meshTest->positions = meshTest->initialPos;
+
+		for (int i = 0; i < waves.size(); i++)
 		{
-			meshTest->positions[i] = waves[i].GetPositionAtTime(meshTest->initialPos[i], accumTime);
+			for (int j = 0; j < meshTest->positions.size(); j++)
+			{
+				meshTest->positions[j] = waves[i].GetPositionAtTime(meshTest->initialPos[j], accumTime);
+			}
 		}
 		 
 	}

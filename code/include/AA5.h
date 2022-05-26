@@ -21,15 +21,16 @@ namespace AA5
 	{
 	public:
 		Wave(glm::vec3 dir, float amp, float wLenght, float freq, float ph);
+		
 		glm::vec3 GetPositionAtTime(glm::vec3 initialPosition, float time);
 	
 	private:
-		glm::vec3 direction = glm::vec3(0.f, 0.f, 1.f);
-		float amplitude = 0.2f;
-		float waveLength = 0.1f;
+		glm::vec3 direction;
+		float amplitude;
+		float waveLength;
 
-		float frequency = 1.f;
-		float phase = 0.1f;
+		float frequency;
+		float phase;
 	};
 
 	class Sphere 
