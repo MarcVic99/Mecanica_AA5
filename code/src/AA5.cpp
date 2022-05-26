@@ -10,25 +10,24 @@ namespace AA5
 		waveLength = wLenght;
 		frequency = freq;
 		phase = ph;
+
+		yOffset = 5.f;
+
+		// k = 2 * pi / lambda
+		waveK = direction * glm::vec3(2.f * 3.14f / waveLength);
+		waveK.y = 0.f;
 	}
 
 	glm::vec3 AA5::Wave::GetPositionAtTime(glm::vec3 initialPosition, float time)
 	{
 		// time is accumulated simulation time (NOT dt)
-
 		glm::vec3 resultingPosition;
-		glm::vec3 waveVectorK;
-		float offsetY = 5.f;
-
-		// k = 2 * pi / lambda
-		waveVectorK = direction * glm::vec3(2.f * 3.14f / waveLength);
-		waveVectorK.y = 0.f;
 
 		// x = x_0 - summation:(K_i/k_i) * A_i * sin(k_i * x_0 - w_i * t + phi_i)
-		resultingPosition = initialPosition - direction * amplitude * sin(glm::dot(waveVectorK, initialPosition) - frequency * time + phase);
+		resultingPosition = initialPosition - direction * amplitude * sin(glm::dot(waveK, initialPosition) - frequency * time + phase);
 
 		// y = offsetY + summation:A_i * cos(K_i * x_0 - w_i * t + phi_i)
-		resultingPosition.y = offsetY + amplitude * cos(glm::dot(waveVectorK, initialPosition) - frequency * time + phase);
+		resultingPosition.y = yOffset + amplitude * cos(glm::dot(waveK, initialPosition) - frequency * time + phase);
 
 		return resultingPosition;
 	}
@@ -41,11 +40,9 @@ namespace AA5
 		renderSphere = false;
 
 		meshTest = new MeshTest();
-		for (int i = 0; i < meshTest->positions.size(); i++)
-		{
-			waves.push_back(Wave());
-			waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
-		}
+
+		waves.push_back(Wave());
+		waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
 	}
 
 	FluidSimulator::~FluidSimulator()
@@ -64,8 +61,7 @@ namespace AA5
 			{
 				meshTest->positions[j] = waves[i].GetPositionAtTime(meshTest->initialPos[j], accumTime);
 			}
-		}
-		 
+		}		 
 	}
 
 	void FluidSimulator::RenderUpdate()

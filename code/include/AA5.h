@@ -29,8 +29,10 @@ namespace AA5
 		float amplitude;
 		float waveLength;
 
+		float yOffset;
 		float frequency;
 		float phase;
+		glm::vec3 waveK;
 	};
 
 	class Sphere 
