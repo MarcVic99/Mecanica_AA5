@@ -2,6 +2,7 @@
 #include "Simulator.h"
 #include <vector>
 #include <glm/glm.hpp>
+#include <time.h>
 
 extern bool renderParticles;
 extern bool renderSphere;
@@ -19,15 +20,16 @@ namespace AA5
 	class Wave 
 	{
 	public:
+		Wave(glm::vec3 dir, float amp, float wLenght, float freq, float ph);
 		glm::vec3 GetPositionAtTime(glm::vec3 initialPosition, float time);
 	
 	private:
-		glm::vec3 direction;
-		float amplitude;
-		float waveLength;
+		glm::vec3 direction = glm::vec3(0.f, 0.f, 1.f);
+		float amplitude = 0.2f;
+		float waveLength = 0.1f;
 
-		float frequency;
-		float phase;
+		float frequency = 1.f;
+		float phase = 0.1f;
 	};
 
 	class Sphere 
@@ -68,9 +70,10 @@ namespace AA5
 
 	private:
 		float GetSphereSubmergedVolume();
+		float accumTime;
 
 		std::vector<Wave> waves;
-		std::vector<glm::vec3> positions; // 18 x 14 mesh
+		//std::vector<glm::vec3> positions; // 18 x 14 mesh
 		Sphere sphere;
 		MeshTest *meshTest;
 	};

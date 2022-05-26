@@ -2,8 +2,16 @@
 
 namespace AA5 
 {
-
 	// == WAVE ==
+	Wave::Wave(glm::vec3 dir = glm::vec3(0.f, 0.f, 1.f), float amp = 0.2f, float wLenght = 0.1f, float freq = 1.f, float ph = 0.1f)
+	{
+		direction = glm::vec3(0.f, 0.f, 1.f);
+		amplitude = 0.2f;
+		waveLength = 0.1f;
+		frequency = 1.f;
+		phase = 0.1f;
+	}
+
 	glm::vec3 AA5::Wave::GetPositionAtTime(glm::vec3 initialPosition, float time)
 	{
 		// time is accumulated simulation time (NOT dt)
@@ -33,6 +41,10 @@ namespace AA5
 		renderSphere = false;
 
 		meshTest = new MeshTest();
+		for (int i = 0; i < meshTest->positions.size(); i++)
+		{
+			waves.push_back(Wave());
+		}
 	}
 
 	FluidSimulator::~FluidSimulator()
@@ -42,6 +54,12 @@ namespace AA5
 
 	void FluidSimulator::Update(float dt)
 	{
+		accumTime += dt;
+		for (int i = 0; i < meshTest->positions.size(); i++)
+		{
+			meshTest->positions[i] = waves[i].GetPositionAtTime(meshTest->initialPos[i], accumTime);
+		}
+		 
 	}
 
 	void FluidSimulator::RenderUpdate()
@@ -65,8 +83,7 @@ namespace AA5
 		{
 			positions.push_back(glm::vec3(0.f));
 			initialPos.push_back(glm::vec3(0.f));
-		}
-
+		}		
 		SetInitialMeshPosition();
 	}
 
@@ -103,10 +120,11 @@ namespace AA5
 			for (float col = 0; col < ClothMesh::numCols; col++)
 			{
 				int indx = GetIndex(col, row);
-				positions[indx] = glm::vec3(((10.5f/ClothMesh::numRows) * row) - 5, 0, ((10.5f / ClothMesh::numCols) * col) - 5.f);
-				positions[indx] = positions[indx];
+				initialPos[indx] = glm::vec3(((10.5f/ClothMesh::numRows) * row) - 5, 0, ((10.5f / ClothMesh::numCols) * col) - 5.f);
+				positions[indx] = initialPos[indx];
 			}
 		}
 	}
+
 }
 
