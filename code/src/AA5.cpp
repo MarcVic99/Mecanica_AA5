@@ -11,7 +11,7 @@ namespace AA5
 		frequency = freq;
 		phase = ph;
 
-		yOffset = 5.f;
+		yOffset = 2.f;
 
 		// k = 2 * pi / lambda
 		waveK = direction * glm::vec3(2.f * 3.14f / waveLength);
@@ -55,13 +55,16 @@ namespace AA5
 	{
 		accumTime += dt;
 		meshTest->positions = meshTest->initialPos;
+		glm::vec3 forceAccum = glm::vec3(0.f);
 
-		for (int i = 0; i < waves.size(); i++)
+		for (int i = 0; i < meshTest->positions.size(); i++)
 		{
-			for (int j = 0; j < meshTest->positions.size(); j++)
+			for (int j = 0; j < waves.size(); j++)
 			{
-				meshTest->positions[j] = waves[i].GetPositionAtTime(meshTest->initialPos[j], accumTime);
+				forceAccum += waves[j].GetPositionAtTime(meshTest->initialPos[i], accumTime);
 			}
+			meshTest->positions[i] = forceAccum;
+			forceAccum = glm::vec3(0.f);
 		}		 
 	}
 
