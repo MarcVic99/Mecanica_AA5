@@ -39,6 +39,9 @@ namespace AA5
 	class Sphere 
 	{
 	public:
+		Sphere(glm::vec3 startPos, float r, float d);
+		void UpdateSphere(float dt);
+
 		glm::vec3 position;
 		float radius;
 		float density;
@@ -78,7 +81,7 @@ namespace AA5
 
 		std::vector<Wave> waves;
 		//std::vector<glm::vec3> positions; // 18 x 14 mesh
-		Sphere sphere;
+		Sphere *sphere;
 		MeshTest *meshTest;
 	};
 

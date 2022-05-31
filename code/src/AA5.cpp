@@ -32,18 +32,37 @@ namespace AA5
 		return resultingPosition;
 	}
 
+
+	// == SPHERE ==
+	Sphere::Sphere(glm::vec3 startPos, float r, float d)
+	{
+		position = startPos;
+		radius = r;
+		density = d;
+	}
+
+	void Sphere::UpdateSphere(float dt)
+	{
+		// xf = xo + vo * t + 1/2 * a * t^2
+
+		// vf = vo + a * t
+
+	}
+
 	
 	// == FLUID SIMULATOR ==
 	FluidSimulator::FluidSimulator()
 	{
 		renderParticles = false;
 		renderCloth = true;
-		renderSphere = false;
+		renderSphere = true;
 
 		meshTest = new MeshTest();
 
 		waves.push_back(Wave());
 		waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
+
+		sphere = new Sphere(glm::vec3(0.f, 5.f, 0.f), 1.f, 10.f);
 	}
 
 	FluidSimulator::~FluidSimulator()
@@ -131,6 +150,5 @@ namespace AA5
 			}
 		}
 	}
-
 }
 
