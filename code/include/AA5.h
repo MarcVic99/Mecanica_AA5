@@ -3,6 +3,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <time.h>
+#include <Geometry.h>
 
 extern bool renderParticles;
 extern bool renderSphere;
@@ -36,11 +37,12 @@ namespace AA5
 		glm::vec3 waveK;
 	};
 
-	class Sphere 
+	class SphereAA5 
 	{
 	public:
-		Sphere(glm::vec3 startPos, float r, float d);
-		void UpdateSphere(float dt);
+		SphereAA5(glm::vec3 startPos, float r, float d);
+
+		glm::vec3 BuoyancyForce();
 
 		glm::vec3 position;
 		float radius;
@@ -81,11 +83,7 @@ namespace AA5
 
 		std::vector<Wave> waves;
 		//std::vector<glm::vec3> positions; // 18 x 14 mesh
-		Sphere *sphere;
+		SphereAA5*sphere;
 		MeshTest *meshTest;
 	};
-
-	
-
-
 }

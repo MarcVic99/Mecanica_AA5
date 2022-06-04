@@ -1,5 +1,12 @@
 #include "AA5.h"
 
+namespace Sphere
+{
+	extern void updateSphere(glm::vec3 pos, float radius = 1.f);
+	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f));
+	bool resetedRadiusAA5 = true;
+}
+
 namespace AA5 
 {
 	// == WAVE ==
@@ -32,23 +39,32 @@ namespace AA5
 		return resultingPosition;
 	}
 
+	glm::vec3 Wave::SummWaves(glm::vec3 initialPosition, float time)
+	{
+		return glm::vec3();
+	}
+
 
 	// == SPHERE ==
-	Sphere::Sphere(glm::vec3 startPos, float r, float d)
+	SphereAA5::SphereAA5(glm::vec3 startPos, float r, float d)
 	{
 		position = startPos;
 		radius = r;
 		density = d;
 	}
+	
+	// xf = xo + vo * t + 1/2 * a * t^2
 
-	void Sphere::UpdateSphere(float dt)
+	// vf = vo + a * t
+
+
+
+	glm::vec3 SphereAA5::BuoyancyForce()
 	{
-		// xf = xo + vo * t + 1/2 * a * t^2
-
-		// vf = vo + a * t
-
+		glm::vec3 Vsub = glm::vec3(0.f, 1.f, 0.f);
+		return density * glm::vec3(0.f, -9.8f, 0.f) * Vsub * glm::vec3(0.f, 1.f, 0.f);
 	}
-
+	
 	
 	// == FLUID SIMULATOR ==
 	FluidSimulator::FluidSimulator()
@@ -62,7 +78,7 @@ namespace AA5
 		waves.push_back(Wave());
 		waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
 
-		sphere = new Sphere(glm::vec3(0.f, 5.f, 0.f), 1.f, 10.f);
+		//sphere = new Sphere(glm::vec3(0.f, 6.f, 0.f), 1.f, 10.f);
 	}
 
 	FluidSimulator::~FluidSimulator()
@@ -85,11 +101,13 @@ namespace AA5
 			meshTest->positions[i] = forceAccum;
 			forceAccum = glm::vec3(0.f);
 		}		 
+		
 	}
 
 	void FluidSimulator::RenderUpdate()
 	{
 		meshTest->RenderUpdateMesh();
+		Sphere::updateSphere(Sphere::customSphereAA5.sphereCenter, Sphere::customSphereAA5.sphereRadius);
 	}
 
 	void FluidSimulator::RenderGui()
