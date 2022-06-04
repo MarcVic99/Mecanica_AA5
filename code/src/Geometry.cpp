@@ -245,8 +245,6 @@ glm::vec3 CustomSphere::BuoyancyForce(float Vsub)
 
 void CustomSphere::StepEulerSphere(float dt)
 {
-    // xf = xo + vo * t + 1/2 * a * t^2
-    // vf = vo + a * t
     glm::vec3 currentPos;
     glm::vec3 previousPos = GetCurrentSpherePos();
 

@@ -54,7 +54,6 @@ namespace AA5
 	}
 	
 	
-	
 	// == FLUID SIMULATOR ==
 	FluidSimulator::FluidSimulator()
 	{
@@ -91,6 +90,7 @@ namespace AA5
 			forceAccum = glm::vec3(0.f);
 		}		 
 		
+		Sphere::customSphereAA5.StepEulerSphere(dt);
 		if (Sphere::customSphereAA5.sphereCenter.y <= 4.f)
 		{
 			Sphere::customSphereAA5.BuoyancyForce(
@@ -98,8 +98,6 @@ namespace AA5
 					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->positions[0])));
 			
 		}
-
-		Sphere::customSphereAA5.StepEulerSphere(dt);
 	}
 
 	void FluidSimulator::RenderUpdate()
