@@ -98,6 +98,8 @@ namespace AA5
 					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->positions[0])));
 			
 		}
+
+		Sphere::customSphereAA5.StepEulerSphere(dt);
 	}
 
 	void FluidSimulator::RenderUpdate()
@@ -165,9 +167,7 @@ namespace AA5
 		}
 	}
 
-	// xf = xo + vo * t + 1/2 * a * t^2
-
-	// vf = vo + a * t
+	
 
 }
 

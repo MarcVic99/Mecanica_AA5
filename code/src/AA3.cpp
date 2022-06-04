@@ -22,7 +22,7 @@ namespace Planes
 namespace Sphere
 {
 	extern void updateSphere(glm::vec3 pos, float radius = 1.f);
-	CustomSphere customSphereAA3(1.f, glm::vec3(0.f, 2.f, 0.f));
+	CustomSphere customSphereAA3(1.f, glm::vec3(0.f, 2.f, 0.f), 10.f);
 	bool resetedRadiusAA3 = true;
 }
 
