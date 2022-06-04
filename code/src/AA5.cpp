@@ -3,7 +3,7 @@
 namespace Sphere
 {
 	extern void updateSphere(glm::vec3 pos, float radius = 1.f);
-	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f));
+	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f), 10.f);
 	bool resetedRadiusAA5 = true;
 }
 
@@ -53,17 +53,6 @@ namespace AA5
 		density = d;
 	}
 	
-	// xf = xo + vo * t + 1/2 * a * t^2
-
-	// vf = vo + a * t
-
-
-
-	glm::vec3 SphereAA5::BuoyancyForce()
-	{
-		glm::vec3 Vsub = glm::vec3(0.f, 1.f, 0.f);
-		return density * glm::vec3(0.f, -9.8f, 0.f) * Vsub * glm::vec3(0.f, 1.f, 0.f);
-	}
 	
 	
 	// == FLUID SIMULATOR ==
@@ -102,6 +91,13 @@ namespace AA5
 			forceAccum = glm::vec3(0.f);
 		}		 
 		
+		if (Sphere::customSphereAA5.sphereCenter.y <= 4.f)
+		{
+			Sphere::customSphereAA5.BuoyancyForce(
+				Sphere::customSphereAA5.CalculateSphereCapVolume(
+					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->positions[0])));
+			
+		}
 	}
 
 	void FluidSimulator::RenderUpdate()
@@ -168,5 +164,10 @@ namespace AA5
 			}
 		}
 	}
+
+	// xf = xo + vo * t + 1/2 * a * t^2
+
+	// vf = vo + a * t
+
 }
 

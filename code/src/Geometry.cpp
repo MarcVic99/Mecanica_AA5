@@ -119,11 +119,12 @@ glm::vec3* Plane::CalculateParticleMirror(glm::vec3 currentPos, glm::vec3 curren
 
 
 // === SPHERE ===
-CustomSphere::CustomSphere(float radiusS, glm::vec3 centerS) 
+CustomSphere::CustomSphere(float radiusS, glm::vec3 centerS, float d) 
 {
     sphereRadius = radiusS;
     sphereCenter = centerS;
     sphereMovement = STOP;
+    density = d;
 }
 
 CustomSphere::~CustomSphere() 
@@ -219,6 +220,67 @@ void CustomSphere::SphereMovement(bool enable)
     }
 }
 
+float CustomSphere::CalculateSphereCapHeight(glm::vec3 meshPos)
+{
+    float capHeight;
+
+    capHeight = (sphereCenter.y - sphereRadius) + meshPos.y;
+
+    return capHeight;
+}
+
+float CustomSphere::CalculateSphereCapVolume(float capHeight)
+{
+    // V = (pi * h^2 / 3 ) * (3 * r - h)
+    float capVol;
+
+    capVol = (3.14f * (capHeight * capHeight) / 3.f) * (3.f * sphereRadius - capHeight);
+    return capVol;
+}
+
+glm::vec3 CustomSphere::BuoyancyForce(float Vsub)
+{
+    return density * glm::vec3(0.f, -9.8f, 0.f) * Vsub * glm::vec3(0.f, 1.f, 0.f);
+}
+
+void CustomSphere::StepEulerSphere(float dt)
+{
+    // xf = xo + vo * t + 1/2 * a * t^2
+    // vf = vo + a * t
+    glm::vec3 currentPos;
+    glm::vec3 previousPos = GetCurrentSpherePos();
+
+    glm::vec3 currentVel;
+    glm::vec3 previousVel = GetCurrentSphereVel();
+
+    glm::vec3 acceleration = { 0.0f, -9.81f, 0.0f };
+
+    currentPos = currentPos + dt * previousVel;
+    currentVel = previousVel + dt * acceleration;
+
+    SetCurrentSpherePos(currentPos);
+    SetCurrentSphereVel(currentVel);
+}
+
+glm::vec3 CustomSphere::GetCurrentSpherePos()
+{
+    return sphereCenter;
+}
+
+glm::vec3 CustomSphere::GetCurrentSphereVel()
+{
+    return sphereVel;
+}
+
+void CustomSphere::SetCurrentSpherePos(glm::vec3 newPos)
+{
+    sphereCenter = newPos;
+}
+
+void CustomSphere::SetCurrentSphereVel(glm::vec3 newVel)
+{
+    sphereVel = newVel;
+}
 
 // === CAPSULE ===
 CustomCapsule::CustomCapsule(glm::vec3 posA, glm::vec3 posB, float radius)

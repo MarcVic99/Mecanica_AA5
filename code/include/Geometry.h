@@ -30,15 +30,32 @@ private:
 class CustomSphere {
 
 public:
-    CustomSphere(float radiusS, glm::vec3 centerS);
+    CustomSphere(float radiusS, glm::vec3 centerS, float d);
     ~CustomSphere();
 
+    //AA2
     bool CheckCollisionSphere(glm::vec3 particlePos);
     glm::vec3* CalculateParticleMirror(glm::vec3 previousPos, glm::vec3 currentPos, glm::vec3 currentVel);
     glm::vec3 CalculatePointOfCollision(glm::vec3 particlePos, glm::vec3 currentParticlePos);
 
+    //AA5
+    float CalculateSphereCapHeight(glm::vec3 meshPos);
+    float CalculateSphereCapVolume(float capHeight);
+    glm::vec3 CustomSphere::BuoyancyForce(float Vsub);
+    void StepEulerSphere(float dt);
+
+    glm::vec3 GetCurrentSpherePos();
+    glm::vec3 GetCurrentSphereVel();
+
+    void SetCurrentSpherePos(glm::vec3 newPos);
+    void SetCurrentSphereVel(glm::vec3 newVel);
+
     glm::vec3 sphereCenter;
+    glm::vec3 sphereVel;
+
     float sphereRadius;
+
+    float density;
 
     void SphereMovement(bool enable);
     int sphereMovement;
