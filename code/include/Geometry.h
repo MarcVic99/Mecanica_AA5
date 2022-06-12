@@ -41,7 +41,7 @@ public:
     //AA5
     float CalculateSphereCapHeight(glm::vec3 meshPos);
     float CalculateSphereCapVolume(float capHeight);
-    glm::vec3 CustomSphere::BuoyancyForce(float Vsub);
+    glm::vec3 BuoyancyForce(float Vsub);
     void StepEulerSphere(float dt);
 
     glm::vec3 GetCurrentSpherePos();
@@ -52,6 +52,7 @@ public:
 
     glm::vec3 sphereCenter;
     glm::vec3 sphereVel;
+    glm::vec3 sphereAcceleration;
 
     float sphereRadius;
 

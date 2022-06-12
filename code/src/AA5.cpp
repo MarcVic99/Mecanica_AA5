@@ -90,14 +90,15 @@ namespace AA5
 			forceAccum = glm::vec3(0.f);
 		}		 
 		
-		Sphere::customSphereAA5.StepEulerSphere(dt);
 		if (Sphere::customSphereAA5.sphereCenter.y <= 4.f)
 		{
-			Sphere::customSphereAA5.BuoyancyForce(
+			Sphere::customSphereAA5.SetCurrentSphereVel(Sphere::customSphereAA5.BuoyancyForce(
 				Sphere::customSphereAA5.CalculateSphereCapVolume(
-					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->positions[0])));
+					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->positions[0])))/100.f + glm::vec3(0.f, -9.81f, 0.f));
 			
 		}
+		Sphere::customSphereAA5.StepEulerSphere(dt);
+		printf("\nSphere Y: %f", Sphere::customSphereAA5.GetCurrentSpherePos().y);
 	}
 
 	void FluidSimulator::RenderUpdate()

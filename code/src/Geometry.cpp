@@ -125,6 +125,8 @@ CustomSphere::CustomSphere(float radiusS, glm::vec3 centerS, float d)
     sphereCenter = centerS;
     sphereMovement = STOP;
     density = d;
+
+    sphereAcceleration = glm::vec3(0.f, -9.81f, 0.f);
 }
 
 CustomSphere::~CustomSphere() 
@@ -251,10 +253,8 @@ void CustomSphere::StepEulerSphere(float dt)
     glm::vec3 currentVel;
     glm::vec3 previousVel = GetCurrentSphereVel();
 
-    glm::vec3 acceleration = { 0.0f, -9.81f, 0.0f };
-
-    currentPos = currentPos + dt * previousVel;
-    currentVel = previousVel + dt * acceleration;
+    currentPos = previousPos + previousVel * dt;
+    currentVel = previousVel + sphereAcceleration * dt;
 
     SetCurrentSpherePos(currentPos);
     SetCurrentSphereVel(currentVel);
