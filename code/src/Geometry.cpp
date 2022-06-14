@@ -222,11 +222,11 @@ void CustomSphere::SphereMovement(bool enable)
     }
 }
 
-float CustomSphere::CalculateSphereCapHeight(glm::vec3 meshPos)
+float CustomSphere::CalculateSphereCapHeight(float avg)
 {
     float capHeight;
 
-    capHeight = (sphereCenter.y - sphereRadius) + meshPos.y;
+    capHeight = (sphereCenter.y - sphereRadius) + avg;
 
     return capHeight;
 }

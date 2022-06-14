@@ -39,7 +39,7 @@ public:
     glm::vec3 CalculatePointOfCollision(glm::vec3 particlePos, glm::vec3 currentParticlePos);
 
     //AA5
-    float CalculateSphereCapHeight(glm::vec3 meshPos);
+    float CalculateSphereCapHeight(float avg);
     float CalculateSphereCapVolume(float capHeight);
     glm::vec3 BuoyancyForce(float Vsub);
     void StepEulerSphere(float dt);

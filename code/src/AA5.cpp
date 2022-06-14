@@ -3,7 +3,7 @@
 namespace Sphere
 {
 	extern void updateSphere(glm::vec3 pos, float radius = 1.f);
-	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f), 0.58f);
+	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f), 0.68f);
 	bool resetedRadiusAA5 = true;
 }
 
@@ -92,7 +92,7 @@ namespace AA5
 		{
 			Sphere::customSphereAA5.SetCurrentSphereVel(Sphere::customSphereAA5.BuoyancyForce(
 				Sphere::customSphereAA5.CalculateSphereCapVolume(
-					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->positions[0])))/100.f + glm::vec3(0.f, -9.81f, 0.f));
+					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->GetMeshPositionsY())))/100.f + glm::vec3(0.f, -9.81f, 0.f));
 			
 		}
 		Sphere::customSphereAA5.StepEulerSphere(dt);
