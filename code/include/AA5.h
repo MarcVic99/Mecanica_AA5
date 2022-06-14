@@ -63,7 +63,7 @@ namespace AA5
 
 		void SetInitialMeshPosition();
 		void SetInitialMeshParticlePositionAndVelocity();
-
+		float GetMeshPositionsY();
 		std::vector<glm::vec3> positions;
 		std::vector<glm::vec3> initialPos;
 	};

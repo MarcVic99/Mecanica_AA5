@@ -3,7 +3,7 @@
 namespace Sphere
 {
 	extern void updateSphere(glm::vec3 pos, float radius = 1.f);
-	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f), 10.f);
+	CustomSphere customSphereAA5(1.f, glm::vec3(0.f, 8.f, 0.f), 0.58f);
 	bool resetedRadiusAA5 = true;
 }
 
@@ -65,8 +65,6 @@ namespace AA5
 
 		waves.push_back(Wave());
 		waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
-
-		//sphere = new Sphere(glm::vec3(0.f, 6.f, 0.f), 1.f, 10.f);
 	}
 
 	FluidSimulator::~FluidSimulator()
@@ -90,7 +88,7 @@ namespace AA5
 			forceAccum = glm::vec3(0.f);
 		}		 
 		
-		if (Sphere::customSphereAA5.sphereCenter.y <= 4.f)
+		if (Sphere::customSphereAA5.sphereCenter.y <= meshTest->GetMeshPositionsY())
 		{
 			Sphere::customSphereAA5.SetCurrentSphereVel(Sphere::customSphereAA5.BuoyancyForce(
 				Sphere::customSphereAA5.CalculateSphereCapVolume(
@@ -160,12 +158,25 @@ namespace AA5
 			for (float col = 0; col < ClothMesh::numCols; col++)
 			{
 				int indx = GetIndex(col, row);
-				initialPos[indx] = glm::vec3(((10.5f/ClothMesh::numRows) * row) - 5, 0, ((10.5f / ClothMesh::numCols) * col) - 5.f);
+				initialPos[indx] = glm::vec3(((10.5f / ClothMesh::numRows) * row) - 5, 0, ((10.5f / ClothMesh::numCols) * col) - 5.f);
 				positions[indx] = initialPos[indx];
 			}
 		}
 	}
 
+	float MeshTest::GetMeshPositionsY()
+	{
+		float avg = 0;
+		for (float row = 8; row < (ClothMesh::numRows / 2) + 1; row++)
+		{
+			for (float col = 6; col < (ClothMesh::numCols) + 1; col++)
+			{
+				int indx = GetIndex(col, row);
+				avg += positions[indx].y;
+			}
+		}
+		return avg / 18;
+	}
 	
 
 }
