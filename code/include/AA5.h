@@ -17,7 +17,6 @@ namespace ClothMesh
 }
 namespace AA5 
 {
-	
 	class Wave 
 	{
 	public:
@@ -35,18 +34,6 @@ namespace AA5
 		float frequency;
 		float phase;
 		glm::vec3 waveK;
-	};
-
-	class SphereAA5 
-	{
-	public:
-		SphereAA5(glm::vec3 startPos, float r, float d);
-
-		glm::vec3 BuoyancyForce();
-
-		glm::vec3 position;
-		float radius;
-		float density;
 	};
 
 	class MeshTest
@@ -80,10 +67,10 @@ namespace AA5
 	private:
 		float GetSphereSubmergedVolume();
 		float accumTime;
+		float sphereAccumTime;
 
 		std::vector<Wave> waves;
 		//std::vector<glm::vec3> positions; // 18 x 14 mesh
-		SphereAA5*sphere;
 		MeshTest *meshTest;
 	};
 }

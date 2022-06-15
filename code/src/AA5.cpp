@@ -10,7 +10,7 @@ namespace Sphere
 namespace AA5 
 {
 	// == WAVE ==
-	Wave::Wave(glm::vec3 dir = glm::vec3(0.f, 0.f, 1.f), float amp = 0.2f, float wLenght = 0.1f, float freq = 1.f, float ph = 0.1f)
+	Wave::Wave(glm::vec3 dir = glm::vec3(0.f, 0.f, 1.f), float amp = 0.05f, float wLenght = 0.1f, float freq = 1.f, float ph = 0.1f)
 	{
 		direction = dir;
 		amplitude = amp;
@@ -18,7 +18,7 @@ namespace AA5
 		frequency = freq;
 		phase = ph;
 
-		yOffset = 2.f;
+		yOffset = 1.f;
 
 		// k = 2 * pi / lambda
 		waveK = direction * glm::vec3(2.f * 3.14f / waveLength);
@@ -31,10 +31,10 @@ namespace AA5
 		glm::vec3 resultingPosition;
 
 		// x = x_0 - summation:(K_i/k_i) * A_i * sin(k_i * x_0 - w_i * t + phi_i)
-		resultingPosition = initialPosition - direction * amplitude * sin(glm::dot(waveK, initialPosition) - frequency * time + phase);
+		resultingPosition = - direction * amplitude * sin(glm::dot(waveK, initialPosition) - frequency * time + phase);
 
 		// y = offsetY + summation:A_i * cos(K_i * x_0 - w_i * t + phi_i)
-		resultingPosition.y = yOffset + amplitude * cos(glm::dot(waveK, initialPosition) - frequency * time + phase);
+		resultingPosition.y = amplitude * cos(glm::dot(waveK, initialPosition) - frequency * time + phase);
 
 		return resultingPosition;
 	}
@@ -43,20 +43,13 @@ namespace AA5
 	{
 		return glm::vec3();
 	}
-
-
-	// == SPHERE ==
-	SphereAA5::SphereAA5(glm::vec3 startPos, float r, float d)
-	{
-		position = startPos;
-		radius = r;
-		density = d;
-	}
 	
 	
 	// == FLUID SIMULATOR ==
 	FluidSimulator::FluidSimulator()
 	{
+		srand(time(NULL));
+
 		renderParticles = false;
 		renderCloth = true;
 		renderSphere = true;
@@ -64,6 +57,9 @@ namespace AA5
 		meshTest = new MeshTest();
 
 		waves.push_back(Wave());
+		waves.push_back(Wave());
+		waves.push_back(Wave());
+		waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
 		waves.push_back(Wave(glm::vec3(1.f, 0.f, 0.f)));
 	}
 
@@ -75,16 +71,19 @@ namespace AA5
 	void FluidSimulator::Update(float dt)
 	{
 		accumTime += dt;
+		sphereAccumTime += dt;
+
 		meshTest->positions = meshTest->initialPos;
 		glm::vec3 forceAccum = glm::vec3(0.f);
-
+		glm::vec3 finalPos = glm::vec3(0.f);
 		for (int i = 0; i < meshTest->positions.size(); i++)
 		{
 			for (int j = 0; j < waves.size(); j++)
 			{
 				forceAccum += waves[j].GetPositionAtTime(meshTest->initialPos[i], accumTime);
+				finalPos = meshTest->initialPos[i] + forceAccum;
 			}
-			meshTest->positions[i] = forceAccum;
+			meshTest->positions[i] = finalPos;
 			forceAccum = glm::vec3(0.f);
 		}		 
 		
@@ -92,11 +91,18 @@ namespace AA5
 		{
 			Sphere::customSphereAA5.SetCurrentSphereVel(Sphere::customSphereAA5.BuoyancyForce(
 				Sphere::customSphereAA5.CalculateSphereCapVolume(
-					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->GetMeshPositionsY())))/100.f + glm::vec3(0.f, -9.81f, 0.f));
+					Sphere::customSphereAA5.CalculateSphereCapHeight(meshTest->GetMeshPositionsY())))/25.f + glm::vec3(0.f, -9.81f, 0.f));
 			
 		}
 		Sphere::customSphereAA5.StepEulerSphere(dt);
-		printf("\nSphere Y: %f", Sphere::customSphereAA5.GetCurrentSpherePos().y);
+
+		if (sphereAccumTime >= 4.f)
+		{
+			Sphere::customSphereAA5.sphereCenter = glm::vec3(rand() % 9 - 5, 8.f, rand() % 9 - 5);
+			sphereAccumTime = 0;
+			Sphere::customSphereAA5.sphereVel = glm::vec3(0.f);
+		}
+		//printf("\nSphere Y: %f", Sphere::customSphereAA5.GetCurrentSpherePos().y);
 	}
 
 	void FluidSimulator::RenderUpdate()
@@ -158,7 +164,7 @@ namespace AA5
 			for (float col = 0; col < ClothMesh::numCols; col++)
 			{
 				int indx = GetIndex(col, row);
-				initialPos[indx] = glm::vec3(((10.5f / ClothMesh::numRows) * row) - 5, 0, ((10.5f / ClothMesh::numCols) * col) - 5.f);
+				initialPos[indx] = glm::vec3(((10.5f / ClothMesh::numRows) * row) - 5.f, 3.f, ((10.5f / ClothMesh::numCols) * col) - 5.f);
 				positions[indx] = initialPos[indx];
 			}
 		}
